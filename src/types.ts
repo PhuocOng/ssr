@@ -1,4 +1,4 @@
-import type { SerializeOptions } from "cookie";
+import type { CookieSerializeOptions as SerializeOptions } from "cookie-es";
 
 /** @category Types */
 export type CookieOptions = Partial<SerializeOptions>;

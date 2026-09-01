@@ -1,4 +1,4 @@
-import { parse, serialize } from "cookie";
+import { parse, serialize } from "cookie-es";
 
 import {
   DEFAULT_COOKIE_OPTIONS,

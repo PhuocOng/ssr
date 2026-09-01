@@ -1,5 +1,5 @@
-import type { SerializeOptions } from "cookie";
-import * as cookie from "cookie";
+import type { CookieSerializeOptions as SerializeOptions } from "cookie-es";
+import * as cookie from "cookie-es";
 
 /**
  * @deprecated Since v0.4.0: Please use {@link parseCookieHeader}. `parse` will

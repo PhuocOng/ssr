@@ -176,6 +176,42 @@ describe("createStorageFromOptions in browser without cookie methods", () => {
   });
 });
 
+describe.each([false, true])(
+  "cookie methods with isServerClient=%s",
+  (isServerClient) => {
+    it("preserves the cookie method receiver", async () => {
+      const cookies = {
+        values: [{ name: "cookie", value: "old-value" }],
+        headers: {} as Record<string, string>,
+        getAll() {
+          return this.values;
+        },
+        setAll(
+          setCookies: { name: string; value: string }[],
+          headers: Record<string, string>,
+        ) {
+          this.values = setCookies;
+          this.headers = headers;
+        },
+      };
+      const { getAll, setAll } = createStorageFromOptions(
+        { cookies, cookieEncoding: "raw" },
+        isServerClient,
+      );
+      const cookiesToSet = [
+        { name: "cookie", value: "new-value", options: {} },
+      ];
+      const headers = { "Cache-Control": "no-store" };
+
+      expect(await getAll([])).toEqual(cookies.values);
+      await setAll(cookiesToSet, headers);
+
+      expect(cookies.values).toEqual(cookiesToSet);
+      expect(cookies.headers).toEqual(headers);
+    });
+  },
+);
+
 describe("createStorageFromOptions for createServerClient", () => {
   describe("storage without setAll or without set / remove cookie methods", () => {
     let warnings: any[][] = [];

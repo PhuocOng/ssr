@@ -24,8 +24,11 @@ jobs:
           node-version: 22
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec vitest run src/cookies.spec.ts -t "preserves the cookie method receiver"
-          - run: pnpm exec vitest run
-          - run: pnpm build
-          - run: pnpm exec prettier --check .
-          - run: pnpm exec eslint
+      - name: Receiver regression
+        run: >-
+          pnpm exec vitest run src/cookies.spec.ts
+          -t "preserves the cookie method receiver"
+      - run: pnpm exec vitest run
+      - run: pnpm build
+      - run: pnpm exec prettier --check .
+      - run: pnpm exec eslint
